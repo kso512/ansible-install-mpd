@@ -1,2 +1,63 @@
 ---
 # defaults file for ansible-install-mpd
+ansible_install_mpd_user: mpd
+ansible_install_mpd_group: mpd
+ansible_install_mpd_home: /home/mpd
+ansible_install_mpd_src: "{{ ansible_install_mpd_home }}/src"
+ansible_install_mpd_url_base: https://www.musicpd.org/download/mpd/0.20
+ansible_install_mpd_shortname: mpd-0.20.6
+ansible_install_mpd_filename: "{{ ansible_install_mpd_shortname }}.tar.gz"
+ansible_install_mpd_apt_prereqs:
+  - g++
+  - libadplug-dev
+  - libao-dev
+  - libasound2-dev
+  - libaudiofile-dev
+  - libavahi-client-dev
+  - libavcodec-dev
+  - libavformat-dev
+  - libboost-dev
+  - libbz2-dev
+  - libcdio-paranoia-dev
+  - libcppunit-dev
+  - libcurl4-gnutls-dev
+  - libexpat-dev
+  - libfaad-dev
+  - libflac-dev
+  - libfluidsynth-dev
+  - libgme-dev
+  - libicu-dev
+  - libid3tag0-dev
+  - libiso9660-dev
+  - libjack-jackd2-dev
+  - libmad0-dev
+  - libmikmod2-dev
+  - libmms-dev
+  - libmodplug-dev
+  - libmp3lame-dev
+  - libmpcdec-dev
+  - libmpdclient-dev
+  - libmpg123-dev
+  - libnfs-dev
+  - libopenal-dev
+  - libopus-dev
+  - libpulse-dev
+  - libresid-builder-dev
+  - libroar-dev
+  - libsamplerate0-dev
+  - libshout3-dev
+  - libsidplay2-dev
+  - libsidutils-dev
+  - libsmbclient-dev
+  - libsndfile1-dev
+  - libsoxr-dev
+  - libsqlite3-dev
+  - libsystemd-dev
+  - libupnp-dev
+  - libvorbis-dev
+  - libwavpack-dev
+  - libwildmidi-dev
+  - libwrap0-dev
+  - libyajl-dev
+  - libzzip-dev
+  - xmlto
