@@ -5,6 +5,19 @@ python: "2.7"
 # Use the new container infrastructure
 sudo: false
 
+env:
+  - distro: ubuntu1204
+    init: /sbin/init
+    run_opts: ""
+
+  - distro: ubuntu1404
+    init: /sbin/init
+    run_opts: ""
+
+  - distro: ubuntu1604
+    init: /lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+
 # Install ansible
 addons:
   apt:
