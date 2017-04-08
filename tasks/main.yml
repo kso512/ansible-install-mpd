@@ -1,2 +1,54 @@
 ---
 # tasks file for ansible-install-mpd
+
+- name: Make group for Music Player Daemon user
+  group:
+    name: "{{ ansible_install_mpd_user }}"
+    state: present
+  tags:
+    - ansible-install-mpd
+    - users
+
+- name: Make user for Music Player Daemon
+  user:
+    name: "{{ ansible_install_mpd_user }}"
+    group: "{{ ansible_install_mpd_group }}"
+    home: "{{ ansible_install_mpd_home }}"
+    comment: "Music Player Daemon"
+  tags:
+    - ansible-install-mpd
+    - users
+
+- name: Create source directory
+  file:
+    path: "{{ ansible_install_mpd_src }}"
+    owner: "{{ ansible_install_mpd_user }}"
+    group: "{{ ansible_install_mpd_group }}"
+    state: directory
+    mode: 0755
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: Download and extract tar package
+  unarchive:
+    remote_src: yes
+    dest: "{{ ansible_install_mpd_src }}"
+    owner: "{{ ansible_install_mpd_user }}"
+    group: "{{ ansible_install_mpd_group }}"
+    src: "{{ ansible_install_mpd_url_base }}/{{ ansible_install_mpd_filename }}"
+    creates: "{{ ansible_install_mpd_src }}/{{ ansible_install_mpd_shortname }}"
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: Install pre-requisites
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    state: latest
+  with_items:
+    - "{{ ansible_install_mpd_apt_prereqs }}"
+  tags:
+    - ansible-install-mpd
+    - packages
