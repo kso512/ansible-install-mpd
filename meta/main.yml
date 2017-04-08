@@ -107,14 +107,14 @@ galaxy_info:
   #  versions:
   #  - all
   #  - any
-  - name: FreeBSD
-    versions:
+  #- name: FreeBSD
+  #  versions:
   #  - all
   #  - 10.0
   #  - 10.1
   #  - 10.2
   #  - 10.3
-    - 11.0
+  #  - 11.0
   #  - 8.0
   #  - 8.1
   #  - 8.2
@@ -132,7 +132,7 @@ galaxy_info:
   #  - maverick
   #  - natty
   #  - oneiric
-  #  - precise
+    - precise
   #  - quantal
   #  - raring
   #  - saucy
@@ -142,13 +142,13 @@ galaxy_info:
   #  - wily
     - xenial
   #  - yakkety
-  - name: Debian
-    versions:
+  #- name: Debian
+  #  versions:
   #  - all
   #  - etch
   #  - jessie
   #  - lenny
-    - sid
+  #  - sid
   #  - squeeze
   #  - stretch
   #  - wheezy
