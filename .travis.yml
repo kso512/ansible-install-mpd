@@ -2,8 +2,8 @@
 language: python
 python: "2.7"
 
-# Use the new container infrastructure
-sudo: false
+# Don't use the new container infrastructure
+sudo: true
 
 env:
   - distro: ubuntu1204
