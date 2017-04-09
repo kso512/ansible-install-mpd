@@ -40,7 +40,6 @@ ansible_install_mpd_apt_prereqs:
   - libmpg123-dev
   - libnfs-dev
   - libopenal-dev
-  - libopus-dev
   - libpulse-dev
   - libresid-builder-dev
   - libroar-dev
