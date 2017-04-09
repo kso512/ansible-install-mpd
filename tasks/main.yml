@@ -52,3 +52,21 @@
   tags:
     - ansible-install-mpd
     - packages
+
+- name: Configure source before make
+  command: "{{ ansible_install_mpd_src }}/configure -q --enable-httpd-output --enable-shout --enable-vorbis"
+  args:
+    chdir: "{{ ansible_install_mpd_src }}"
+    creates: "{{ ansible_install_mpd_src }}/Makefile"
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: Use make to compile the source
+  command: make --quiet
+  args:
+    chdir: "{{ ansible_install_mpd_src }}"
+    creates: "{{ ansible_install_mpd_src }}/src/mpd"
+  tags:
+    - ansible-install-mpd
+    - files
