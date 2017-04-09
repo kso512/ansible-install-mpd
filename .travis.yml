@@ -16,12 +16,11 @@ env:
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 
-# Install ansible and pre-requisites not found later
+# Install ansible
 addons:
   apt:
     packages:
     - python-pip
-    - libopus-dev
 
 install:
   # Install ansible
