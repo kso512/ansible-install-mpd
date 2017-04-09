@@ -36,6 +36,9 @@ script:
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
+  # Run apt-get update so we can install packages
+  - apt-get update
+
   # Run the playbook and hope for no errors
   - ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo
 
