@@ -16,17 +16,30 @@ env:
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 
-# Install ansible and updated gcc
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env: COMPILER=g++-4.9
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=g++-5
+
+# Install ansible
 addons:
   apt:
-    sources:
-    - llvm-toolchain-precise
-    - ubuntu-toolchain-r-test
     packages:
     - python-pip
-    - clang-3.7
-    - g++-5
-    - gcc-5
 
 install:
   # Install ansible
