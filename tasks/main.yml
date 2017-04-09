@@ -19,9 +19,9 @@
     - ansible-install-mpd
     - users
 
-- name: Create source directory
+- name: Create source base directory
   file:
-    path: "{{ ansible_install_mpd_src }}"
+    path: "{{ ansible_install_mpd_src_base }}"
     owner: "{{ ansible_install_mpd_user }}"
     group: "{{ ansible_install_mpd_group }}"
     state: directory
@@ -33,11 +33,11 @@
 - name: Download and extract tar package
   unarchive:
     remote_src: yes
-    dest: "{{ ansible_install_mpd_src }}"
+    dest: "{{ ansible_install_mpd_src_base }}"
     owner: "{{ ansible_install_mpd_user }}"
     group: "{{ ansible_install_mpd_group }}"
     src: "{{ ansible_install_mpd_url_base }}/{{ ansible_install_mpd_filename }}"
-    creates: "{{ ansible_install_mpd_src }}/{{ ansible_install_mpd_shortname }}"
+    creates: "{{ ansible_install_mpd_src }}"
   tags:
     - ansible-install-mpd
     - files

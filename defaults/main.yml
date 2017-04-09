@@ -3,10 +3,11 @@
 ansible_install_mpd_user: mpd
 ansible_install_mpd_group: mpd
 ansible_install_mpd_home: /home/mpd
-ansible_install_mpd_src: "{{ ansible_install_mpd_home }}/src"
+ansible_install_mpd_src_base: "{{ ansible_install_mpd_home }}/src"
 ansible_install_mpd_url_base: http://www.musicpd.org/download/mpd/0.20
 ansible_install_mpd_shortname: mpd-0.20.6
 ansible_install_mpd_filename: "{{ ansible_install_mpd_shortname }}.tar.gz"
+ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}"
 ansible_install_mpd_apt_prereqs:
   - g++
   - libadplug-dev
