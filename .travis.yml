@@ -35,11 +35,21 @@ matrix:
             - g++-5
       env: COMPILER=g++-5
 
-# Install ansible
+# Install ansible and required C compiler
 addons:
   apt:
+    sources:
+      - llvm-toolchain-precise
+      - ubuntu-toolchain-r-test
     packages:
-    - python-pip
+      - python-pip
+      - clang-3.7
+      - g++-5
+      - gcc-5
+
+# Set environment variables for C compiler
+before_install:
+- export CXX="g++-5" CC="gcc-5"
 
 install:
   # Install ansible
