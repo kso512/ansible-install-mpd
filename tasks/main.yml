@@ -72,3 +72,12 @@
   tags:
     - ansible-install-mpd
     - files
+
+- name: Use make to install the compiled source
+  command: make install --quiet
+  args:
+    chdir: "{{ ansible_install_mpd_src }}"
+    creates: /usr/local/bin/mpd
+  tags:
+    - ansible-install-mpd
+    - files
