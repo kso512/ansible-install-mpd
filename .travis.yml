@@ -6,21 +6,11 @@ python: "2.7.12"
 # Don't use the new container infrastructure
 sudo: true
 
-# Install ansible and required C compiler
+# Install ansible
 addons:
   apt:
-    sources:
-      - llvm-toolchain-precise
-      - ubuntu-toolchain-r-test
     packages:
       - python-pip
-      - clang-3.7
-      - g++-5
-      - gcc-5
-
-# Set environment variables for C compiler
-before_install:
-- export CXX="g++-5" CC="gcc-5"
 
 install:
   # Install ansible
