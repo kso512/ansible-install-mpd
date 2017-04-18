@@ -89,20 +89,42 @@
     - ansible-install-mpd
     - files
 
-- name: Use make to compile the source
+- name: See if executable already exists
+  stat:
+    get_checksum: False
+    get_md5: False
+    path: "{{ ansible_install_mpd_src }}/src/mpd"
+  register: stat_output_exec
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: If not, use make to compile the source
   make:
     chdir: "{{ ansible_install_mpd_src }}"
     params:
       std: c++14
   become_user: mpd
+  when: not stat_output_exec.stat.exists
   tags:
     - ansible-install-mpd
     - files
 
-- name: Use make to install the compiled source
+- name: See if executable is already installed
+  stat:
+    get_checksum: False
+    get_md5: False
+    path: /usr/local/bin/mpd
+  register: stat_output_install
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: If not, use make to install the compiled source
   make:
     chdir: "{{ ansible_install_mpd_src }}"
     target: install
+  when: not stat_output_install.stat.exists
   tags:
     - ansible-install-mpd
     - files
