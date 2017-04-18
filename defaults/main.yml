@@ -51,6 +51,7 @@ ansible_install_mpd_apt_prereqs:
   - libsidutils-dev
   - libsmbclient-dev
   - libsndfile1-dev
+  - libsoxr-dev
   - libsqlite3-dev
   - libupnp-dev
   - libvorbis-dev
