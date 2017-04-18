@@ -84,7 +84,7 @@
   args:
     chdir: "{{ ansible_install_mpd_src }}"
     creates: "{{ ansible_install_mpd_src }}/Makefile"
-  become_user: mpd
+  become_user: "{{ ansible_install_mpd_user }}"
   tags:
     - ansible-install-mpd
     - files
@@ -102,9 +102,7 @@
 - name: If not, use make to compile the source
   make:
     chdir: "{{ ansible_install_mpd_src }}"
-    params:
-      std: c++14
-  become_user: mpd
+  become_user: "{{ ansible_install_mpd_user }}"
   when: not stat_output_exec.stat.exists
   tags:
     - ansible-install-mpd
