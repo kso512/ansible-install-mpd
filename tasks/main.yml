@@ -42,6 +42,14 @@
     - ansible-install-mpd
     - files
 
+- name: Add ubuntu-toolchain-r/test PPA
+  apt_repository:
+    repo: 'ppa:ubuntu-toolchain-r/test'
+    update_cache: yes
+  tags:
+    - ansible-install-mpd
+    - packages
+
 - name: Install pre-requisites
   apt:
     name: "{{ item }}"
@@ -52,6 +60,24 @@
   tags:
     - ansible-install-mpd
     - packages
+
+- name: Create softlink for gcc-4.9
+  file:
+    path: /usr/bin/gcc
+    src: /usr/bin/gcc-4.9
+    state: link
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: Create softlink for g++-4.9
+  file:
+    path: /usr/bin/g++
+    src: /usr/bin/g++-4.9
+    state: link
+  tags:
+    - ansible-install-mpd
+    - files
 
 - name: Configure source before make
   command: "{{ ansible_install_mpd_src }}/configure -q --enable-httpd-output --enable-shout --enable-vorbis"
@@ -64,20 +90,19 @@
     - files
 
 - name: Use make to compile the source
-  command: make --quiet
-  args:
+  make:
     chdir: "{{ ansible_install_mpd_src }}"
-    creates: "{{ ansible_install_mpd_src }}/src/mpd"
+    params:
+      std: c++14
   become_user: mpd
   tags:
     - ansible-install-mpd
     - files
 
 - name: Use make to install the compiled source
-  command: make install --quiet
-  args:
+  make:
     chdir: "{{ ansible_install_mpd_src }}"
-    creates: /usr/local/bin/mpd
+    target: install
   tags:
     - ansible-install-mpd
     - files

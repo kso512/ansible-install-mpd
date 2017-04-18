@@ -9,7 +9,7 @@ ansible_install_mpd_shortname: mpd-0.20.6
 ansible_install_mpd_filename: "{{ ansible_install_mpd_shortname }}.tar.gz"
 ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}"
 ansible_install_mpd_apt_prereqs:
-  - g++
+  - g++-4.9
   - libadplug-dev
   - libao-dev
   - libasound2-dev
