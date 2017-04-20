@@ -112,7 +112,7 @@
   stat:
     get_checksum: False
     get_md5: False
-    path: /usr/local/bin/mpd
+    path: "{{ ansible_install_mpd_executable }}"
   register: stat_output_install
   tags:
     - ansible-install-mpd
