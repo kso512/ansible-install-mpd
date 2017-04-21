@@ -19,13 +19,17 @@
     - ansible-install-mpd
     - users
 
-- name: Create source base directory
+- name: Create needed directories
   file:
-    path: "{{ ansible_install_mpd_src_base }}"
+    path: "{{ item }}"
     owner: "{{ ansible_install_mpd_user }}"
     group: "{{ ansible_install_mpd_group }}"
     state: directory
     mode: 0755
+  with_items:
+    - "{{ ansible_install_mpd_src_base }}"
+    - "{{ ansible_install_mpd_music_directory }}"
+    - "{{ ansible_install_mpd_playlist_directory }}"
   tags:
     - ansible-install-mpd
     - files
@@ -136,6 +140,7 @@
     owner: root
     mode: 0644
     src: upstart.mpd.conf.j2
+  notify: Restart the Music Player Daemon service
   register: template_output
   tags:
     - ansible-install-mpd
@@ -155,6 +160,15 @@
     group: "{{ ansible_install_mpd_group }}"
     mode: 0644
     src: mpd.conf.j2
+  notify: Restart the Music Player Daemon service
   tags:
     - ansible-install-mpd
     - files
+
+- name: Enable the Music Player Daemon service on next boot
+  service:
+    name: mpd
+    enabled: yes
+  tags:
+    - ansible-install-mpd
+    - services
