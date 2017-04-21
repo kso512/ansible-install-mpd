@@ -172,3 +172,18 @@
   tags:
     - ansible-install-mpd
     - services
+
+- name: Touch some needed files
+  file:
+    path: "{{ item }}"
+    owner: "{{ ansible_install_mpd_user }}"
+    group: "{{ ansible_install_mpd_group }}"
+    state: touch
+    mode: 0755
+  with_items:
+    - "{{ ansible_install_mpd_db_file }}"
+    - "{{ ansible_install_mpd_pid_file }}"
+    - "{{ ansible_install_mpd_state_file }}"
+  tags:
+    - ansible-install-mpd
+    - files
