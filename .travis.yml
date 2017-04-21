@@ -36,5 +36,14 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
+  # Check for the Music Player Daemon process
+  - ps -ef | grep mpd | grep conf | grep -v grep
+
+  # Check for the Music Player Daemon control port
+  - ss -lnt | grep 6600
+
+  # Check for the Music Player Daemon HTTPD out port
+  - ss -lnt | grep 8000
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
