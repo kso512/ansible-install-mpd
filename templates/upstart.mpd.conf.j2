@@ -15,7 +15,7 @@ pre-start script
     echo "[$(date)] Music Player Daemon starting" >> /var/log/syslog
 end script
 
-exec {{ ansible_install_mpd_executable }}
+exec {{ ansible_install_mpd_executable }} {{ ansible_install_mpd_conf }}
 
 pre-stop script
     echo "[$(date)] Music Player Daemon stopping" >> /var/log/syslog
