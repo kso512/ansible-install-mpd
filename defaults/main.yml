@@ -33,6 +33,7 @@ ansible_install_mpd_apt_prereqs:
   - libadplug-dev
   - libao-dev
   - libasound2-dev
+  - libaudio-mpd-perl
   - libaudiofile-dev
   - libavahi-client-dev
   - libavcodec-dev
