@@ -16,6 +16,7 @@ ansible_install_mpd_playlist_directory: "{{ ansible_install_mpd_home }}/playlist
 ansible_install_mpd_db_file: "{{ ansible_install_mpd_home }}/database"
 ansible_install_mpd_log_file: "{{ ansible_install_mpd_home }}/log"
 ansible_install_mpd_pid_file: "{{ ansible_install_mpd_home }}/pid"
+ansible_install_mpd_ratings_file: "{{ ansible_install_mpd_home }}/ratings.db"
 ansible_install_mpd_state_file: "{{ ansible_install_mpd_home }}/state"
 ansible_install_mpd_sticker_file: "{{ ansible_install_mpd_home }}/sticker.sql"
 ansible_install_mpd_bind_to_address: any
