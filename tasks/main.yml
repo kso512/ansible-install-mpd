@@ -183,6 +183,7 @@
   with_items:
     - "{{ ansible_install_mpd_db_file }}"
     - "{{ ansible_install_mpd_pid_file }}"
+    - "{{ ansible_install_mpd_ratings_file }}"
     - "{{ ansible_install_mpd_state_file }}"
   changed_when: False
   tags:
