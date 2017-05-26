@@ -1,5 +1,4 @@
-ansible-install-mpd
-=========
+# ansible-install-mpd
 
 Music Player Daemon main web site: http://www.musicpd.org/
 
@@ -7,13 +6,11 @@ This is an Ansible role to install the Music Player Daemon from source instead o
 
 NOT recommended for un-protected connection directly to the Internet, as the server is configured for access without a password.
 
-Requirements
-------------
+## Requirements
 
 If the server has a firewall enabled, it may need to be altered to allow incoming packets on TCP ports 6600 and/or 8000.  No music or playlists are included, so you'll need to supply those.  See the Role Variables section below for those locations.
 
-Role Variables
---------------
+## Role Variables
 
 The defaults shown below will work "out-of-the-box" and only needs customization if they don't meet your needs.  
 
@@ -110,13 +107,11 @@ List of APT packages installed as pre-requisites:
 - libzzip-dev
 - xmlto
 
-Dependencies
-------------
+## Dependencies
 
 This role depends on no other roles.  
 
-Example Playbook
-----------------
+## Example Playbook
 
 Configure a MPD server for localhost access only:
 
@@ -124,12 +119,10 @@ Configure a MPD server for localhost access only:
       roles:
          - { role: kso512.ansible-install-mpd, ansible_install_mpd_bind_to_address: 127.0.0.1 }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 > Chris Lindbergh @kso512
