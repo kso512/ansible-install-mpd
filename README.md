@@ -4,7 +4,7 @@ Music Player Daemon main web site: http://www.musicpd.org/
 
 This is an Ansible role to install the Music Player Daemon from source instead of via a package manager.  Some package managers may not include MP3 support, so compiling from source is needed.
 
-NOT recommended for un-protected connection directly to the Internet, as the server is configured for access without a password.
+The default configuration is NOT recommended for unprotected connection directly to the Internet, as the server is configured for access without a password.  I recommend you either fork the repository and customize your own mpd.conf.j2, or configure a host or group variable that overrides `ansible_install_mpd_conf_src` with another file outside the repository.
 
 ## Requirements
 
@@ -27,6 +27,7 @@ The defaults shown below will work "out-of-the-box" and only needs customization
 | ansible_install_mpd_executable | Fully-qualified file name of the MPD executable | `/usr/local/bin/mpd` |
 | ansible_install_mpd_upstart | Fully-qualified file name of the Upstart configuration file | `/etc/init/mpd.conf` |
 | ansible_install_mpd_conf | Fully-qualified file name of the MPD configuration file | `"{{ ansible_install_mpd_home }}/mpd.conf"` |
+| ansible_install_mpd_conf_src | Relative or fully-qualified file name of the MPD configuration file source | `mpd.conf.j2` |
 | ansible_install_mpd_music_directory | Folder to store music in | `"{{ ansible_install_mpd_home }}/music"` |
 | ansible_install_mpd_playlist_directory | Folder to store playlists in | `"{{ ansible_install_mpd_home }}/playlist"` |
 | ansible_install_mpd_db_file | Fully-qualified file name of the MPD database file | `"{{ ansible_install_mpd_home }}/database"` |
