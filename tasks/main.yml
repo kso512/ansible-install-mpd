@@ -159,7 +159,7 @@
     owner: "{{ ansible_install_mpd_user }}"
     group: "{{ ansible_install_mpd_group }}"
     mode: 0644
-    src: mpd.conf.j2
+    src: "{{ ansible_install_mpd_conf_src }}"
   notify: Restart the Music Player Daemon service
   tags:
     - ansible-install-mpd
