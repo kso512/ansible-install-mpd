@@ -140,7 +140,7 @@
     owner: root
     mode: 0644
     src: "{{ ansible_install_mpd_upstart_src }}"
-  when: ansible_service_mgr is upstart
+  when: ansible_service_mgr == "upstart"
   notify: Restart the Music Player Daemon service
   register: template_output
   tags:
@@ -162,7 +162,7 @@
     mode: 0644
     src: "{{ ansible_install_mpd_systemd_service_src }}"
     validate: "{{ systemd-analyze verify ansible_install_mpd_systemd_service_dest }}"
-  when: ansible_service_mgr is systemd
+  when: ansible_service_mgr == "systemd"
   notify: Restart the Music Player Daemon service
   tags:
     - ansible-install-mpd
@@ -176,7 +176,7 @@
     mode: 0644
     src: "{{ ansible_install_mpd_systemd_socket_src }}"
     validate: "{{ systemd-analyze verify ansible_install_mpd_systemd_socket_dest }}"
-  when: ansible_service_mgr is systemd
+  when: ansible_service_mgr == "systemd"
   notify: Restart the Music Player Daemon service
   tags:
     - ansible-install-mpd
