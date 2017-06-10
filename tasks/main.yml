@@ -161,7 +161,7 @@
     owner: root
     mode: 0644
     src: "{{ ansible_install_mpd_systemd_service_src }}"
-    validate: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
+    validate: systemd-analyze verify %s
   when: ansible_service_mgr == "systemd"
   notify: Restart the Music Player Daemon service
   tags:
@@ -175,7 +175,7 @@
     owner: root
     mode: 0644
     src: "{{ ansible_install_mpd_systemd_socket_src }}"
-    validate: "systemd-analyze verify {{ ansible_install_mpd_systemd_socket_dest }}"
+    validate: systemd-analyze verify %s
   when: ansible_service_mgr == "systemd"
   notify: Restart the Music Player Daemon service
   tags:
