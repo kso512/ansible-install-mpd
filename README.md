@@ -6,6 +6,8 @@ An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/pl
 
 The default configuration is **NOT** recommended for unprotected connection directly to the Internet, as the server is configured for access without a password.  To increase security, I recommend you either fork the repository and customize your own mpd.conf.j2, or configure a host or group variable that overrides `ansible_install_mpd_conf_src` with another file outside the repository.
 
+Tested with Travis continuous integration on Ubuntu 14.04 LTS.
+
 ## Requirements
 
 If the server has a firewall enabled, it may need to be altered to allow incoming packets on TCP ports 6600 and/or 8000.  No music or play lists are included, so you'll need to supply those.  See the *Role Variables* section below for those locations.
@@ -56,6 +58,7 @@ Example of a HTTP stream output in the `ansible_install_mpd_audio_output` dictio
 
 List of APT packages installed as pre-requisites:
 
+- cmake
 - g++-4.9
 - libadplug-dev
 - libao-dev
