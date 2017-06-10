@@ -131,8 +131,8 @@
     - ansible-install-mpd
     - files
 
-# Validation in the template task fails because the file ansible uses to
-# validate doesn't end in .conf, so we'll use a separate task.
+# Validation in the template tasks below fail because the file ansible 
+# uses to validate don't work, so we'll use a separate task.
 - name: Generate upstart configuration file
   template:
     dest: "{{ ansible_install_mpd_upstart_dest }}"
@@ -142,17 +142,19 @@
     src: "{{ ansible_install_mpd_upstart_src }}"
   when: ansible_service_mgr == "upstart"
   notify: Restart the Music Player Daemon service
-  register: template_output
+  register: upstart_template_output
   tags:
     - ansible-install-mpd
     - files
+    - services
 
 - name: Validate upstart configuration file if new
   command: "init-checkconf {{ ansible_install_mpd_upstart_dest }}"
-  when: template_output.changed
+  when: upstart_template_output.changed
   tags:
     - ansible-install-mpd
     - files
+    - services
 
 - name: Generate systemd service configuration file
   template:
@@ -161,12 +163,13 @@
     owner: root
     mode: 0644
     src: "{{ ansible_install_mpd_systemd_service_src }}"
-    validate: systemd-analyze verify %s
   when: ansible_service_mgr == "systemd"
   notify: Restart the Music Player Daemon service
+  register: systemd_service_template_output
   tags:
     - ansible-install-mpd
     - files
+    - services
 
 - name: Generate systemd socket configuration file
   template:
@@ -175,12 +178,21 @@
     owner: root
     mode: 0644
     src: "{{ ansible_install_mpd_systemd_socket_src }}"
-    validate: systemd-analyze verify %s
   when: ansible_service_mgr == "systemd"
   notify: Restart the Music Player Daemon service
+  register: systemd_socket_template_output
   tags:
     - ansible-install-mpd
     - files
+    - services
+
+- name: Validate systemd configuration files if new
+  command: "systemd-analyze verify {{ ansible_install_mpd_upstart_dest }}"
+  when: systemd_service_template_output.changed or systemd_socket_template_output.changed
+  tags:
+    - ansible-install-mpd
+    - files
+    - services
 
 - name: Generate MPD configuration file
   template:
