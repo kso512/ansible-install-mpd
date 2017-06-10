@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Music Player Daemon
+After=network.target sound.target
+
+[Service]
+ExecStart={{ ansible_install_mpd_executable }} --no-daemon {{ ansible_install_mpd_conf }}
+
+# allow MPD to use real-time priority 50
+LimitRTPRIO=50
+LimitRTTIME=infinity
+
+# disallow writing to /usr, /bin, /sbin, ...
+ProtectSystem=yes
+
+[Install]
+WantedBy=multi-user.target
+Also=mpd.socket
