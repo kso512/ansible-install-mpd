@@ -1,27 +1,32 @@
 ---
 # defaults file for ansible-install-mpd
-ansible_install_mpd_user: mpd
-ansible_install_mpd_group: mpd
-ansible_install_mpd_home: /home/mpd
-ansible_install_mpd_src_base: "{{ ansible_install_mpd_home }}/src"
-ansible_install_mpd_url_base: http://www.musicpd.org/download/mpd/0.20
-ansible_install_mpd_shortname: mpd-0.20.6
-ansible_install_mpd_filename: "{{ ansible_install_mpd_shortname }}.tar.gz"
-ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}"
-ansible_install_mpd_executable: /usr/local/bin/mpd
-ansible_install_mpd_upstart: /etc/init/mpd.conf
+ansible_install_mpd_bind_to_address: any
 ansible_install_mpd_conf: "{{ ansible_install_mpd_home }}/mpd.conf"
 ansible_install_mpd_conf_src: mpd.conf.j2
-ansible_install_mpd_music_directory: "{{ ansible_install_mpd_home }}/music"
-ansible_install_mpd_playlist_directory: "{{ ansible_install_mpd_home }}/playlist"
 ansible_install_mpd_db_file: "{{ ansible_install_mpd_home }}/database"
+ansible_install_mpd_executable: /usr/local/bin/mpd
+ansible_install_mpd_filename: "{{ ansible_install_mpd_shortname }}.tar.gz"
+ansible_install_mpd_group: mpd
+ansible_install_mpd_home: /home/mpd
 ansible_install_mpd_log_file: "{{ ansible_install_mpd_home }}/log"
+ansible_install_mpd_music_directory: "{{ ansible_install_mpd_home }}/music"
 ansible_install_mpd_pid_file: "{{ ansible_install_mpd_home }}/pid"
+ansible_install_mpd_playlist_directory: "{{ ansible_install_mpd_home }}/playlist"
+ansible_install_mpd_port: 6600
 ansible_install_mpd_ratings_file: "{{ ansible_install_mpd_home }}/ratings.db"
+ansible_install_mpd_shortname: mpd-0.20.6
+ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}"
+ansible_install_mpd_src_base: "{{ ansible_install_mpd_home }}/src"
 ansible_install_mpd_state_file: "{{ ansible_install_mpd_home }}/state"
 ansible_install_mpd_sticker_file: "{{ ansible_install_mpd_home }}/sticker.sql"
-ansible_install_mpd_bind_to_address: any
-ansible_install_mpd_port: 6600
+ansible_install_mpd_systemd_service_dest: /lib/systemd/system/mpd.service
+ansible_install_mpd_systemd_service_src: systemd.mpd.service.j2
+ansible_install_mpd_systemd_socket_dest: /lib/systemd/system/mpd.socket
+ansible_install_mpd_systemd_socket_src: systemd.mpd.socket.j2
+ansible_install_mpd_upstart_dest: /etc/init/mpd.conf
+ansible_install_mpd_upstart_src: upstart.mpd.conf.j2
+ansible_install_mpd_url_base: http://www.musicpd.org/download/mpd/0.20
+ansible_install_mpd_user: mpd
 ansible_install_mpd_audio_output:
   httpd:
     type: httpd
