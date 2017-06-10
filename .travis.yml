@@ -1,49 +1,77 @@
 ---
-dist: trusty
-language: python
-python: "2.7.12"
+#dist: trusty
+#language: python
+#python: "2.7.12"
 
 # Don't use the new container infrastructure
-sudo: true
+sudo: required
+
+env:
+  - distro: ubuntu1404
+    init: /sbin/init
+    run_opts: ""
+
+services:
+  - docker
+
+before_install:
+  # Pull container from Docker Hub.
+  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
 
 # Install ansible
-addons:
-  apt:
-    packages:
-      - python-pip
-
-install:
-  # Install ansible
-  - pip install ansible
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+#addons:
+#  apt:
+#    packages:
+#      - python-pip
+#
+#install:
+#  # Install ansible
+#  - pip install ansible
+#
+#  # Check ansible version
+#  - ansible --version
+#
+#  # Create ansible.cfg with correct roles_path
+#  - printf '[defaults]\nroles_path=../' >ansible.cfg
 
 script:
+  # Create a random file to store the container ID.
+  - container_id=$(mktemp)
+
+  # Run container detached, with our role mounted inside.
+  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/ansible-install-mpd:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
+
   # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    ansible-playbook /etc/ansible/roles/ansible-install-mpd/tests/test.yml
+    --syntax-check
 
   # Run the playbook and hope for no errors
-  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    ansible-playbook /etc/ansible/roles/ansible-install-mpd/tests/test.yml
 
   # Run the playbook one more time and hope for no changes to make sure its idempotent
+  - idempotence=$(mktemp)
   - >
-    ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo
+    docker exec "$(cat ${container_id})"
+    ansible-playbook /etc/ansible/roles/ansible-install-mpd/tests/test.yml
+    | tee -a ${idempotence}
+  - >
+    tail ${idempotence}
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Check for the Music Player Daemon process
-  - ps -ef | grep mpd | grep conf | grep -v grep
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ps -ef | grep mpd | grep conf | grep -v grep'
 
   # Check for the Music Player Daemon control port
-  - ss -lnt | grep 6600
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 6600'
 
   # Check for the Music Player Daemon HTTPD out port
-  - ss -lnt | grep 8000
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 8000'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
