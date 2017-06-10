@@ -38,7 +38,6 @@ ansible_install_mpd_audio_output:
 ansible_install_mpd_apt_prereqs:
   - cmake
   - g++-4.9
-  #- libadplug-dev
   - libao-dev
   - libasound2-dev
   - libaudio-mpd-perl

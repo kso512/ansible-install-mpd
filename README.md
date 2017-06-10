@@ -2,11 +2,14 @@
 
 # ansible-install-mpd
 
-An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/playbooks_roles.html#roles) to install the [Music Player Daemon](http://www.musicpd.org/) from source instead of via a package manager.  Some package managers may not include MP3 support, so compiling from source is needed.
+An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/playbooks_roles.html#roles) to install the [Music Player Daemon](http://www.musicpd.org/) application from source instead of via a package manager.  Some package managers may not include features such as MP3 support, so compiling from source may help.
 
-The default configuration is **NOT** recommended for unprotected connection directly to the Internet, as the server is configured for access without a password.  To increase security, I recommend you either fork the repository and customize your own mpd.conf.j2, or configure a host or group variable that overrides `ansible_install_mpd_conf_src` with another file outside the repository.
+I do **NOT** recommend the default configuration for unprotected connection directly to the Internet, as the server configuration includes access without a password.  To increase security, I recommend the operator configure a host or group variable that overrides `ansible_install_mpd_conf_src` with another file outside the repository.
 
-Tested with Travis continuous integration on Ubuntu 14.04 LTS.
+Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
+
+- [Ubuntu 14.04 LTS Xenial Xerus](http://releases.ubuntu.com/xenial/)
+- [Ubuntu 16.04 LTS Trusty Tahr](http://releases.ubuntu.com/trusty/)
 
 ## Requirements
 
@@ -18,8 +21,6 @@ The defaults shown below work "out-of-the-box" and only need customization if th
 
 | Name | Description | Default Value |
 | ---- | ----------- | ------------- |
-| ansible_install_mpd_apt_prereqs | List of APT packages to install | (See **NOTE B** below) |
-| ansible_install_mpd_audio_output | Dictionary containing audio output definitions | (See **NOTE A** below) |
 | ansible_install_mpd_bind_to_address | Address to bind the control interface to; examples are "any" or "localhost" | `any` |
 | ansible_install_mpd_conf | Fully-qualified file name of the MPD configuration file | `{{ ansible_install_mpd_home }}/mpd.conf` |
 | ansible_install_mpd_conf_src | Relative or fully-qualified file name of the MPD configuration file source | `mpd.conf.j2` |
@@ -38,9 +39,16 @@ The defaults shown below work "out-of-the-box" and only need customization if th
 | ansible_install_mpd_src_base | Directory to place the source code archive in | `{{ ansible_install_mpd_home }}/src` |
 | ansible_install_mpd_state_file | Fully-qualified file name of the MPD state file | `{{ ansible_install_mpd_home }}/state` |
 | ansible_install_mpd_sticker_file | Fully-qualified file name of the MPD sticker file | `{{ ansible_install_mpd_home }}/sticker.sql` |
-| ansible_install_mpd_upstart | Fully-qualified file name of the Upstart configuration file | `/etc/init/mpd.conf` |
+| ansible_install_mpd_systemd_service_dest | Fully-qualified file name of the MPD systemd service unit file | `/lib/systemd/system/mpd.service` |
+| ansible_install_mpd_systemd_service_src | Relative or fully-qualified file name of the MPD systemd service unit file source | `systemd.mpd.service.j2` |
+| ansible_install_mpd_systemd_socket_dest | Fully-qualified file name of the MPD systemd socket unit file | `/lib/systemd/system/mpd.socket` |
+| ansible_install_mpd_systemd_socket_src | Relative or fully-qualified file name of the MPD systemd socket unit file source | `systemd.mpd.socket.j2` |
+| ansible_install_mpd_upstart_dest | Fully-qualified file name of the MPD upstart configuration file | `/etc/init/mpd.conf` |
+| ansible_install_mpd_upstart_src | Relative or fully-qualified file name of the MPD upstart configuration file source | `upstart.mpd.conf.j2` |
 | ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.20` |
 | ansible_install_mpd_user | Name of the user that will own the daemon process | `mpd` |
+| ansible_install_mpd_audio_output | Dictionary containing audio output definitions | (See **NOTE A** below) |
+| ansible_install_mpd_apt_prereqs | List of APT packages to install | (See **NOTE B** below) |
 
 **NOTE A**
 
@@ -60,7 +68,6 @@ List of APT packages installed as pre-requisites:
 
 - cmake
 - g++-4.9
-- libadplug-dev
 - libao-dev
 - libasound2-dev
 - libaudiofile-dev
