@@ -9,7 +9,7 @@ env:
     run_opts: ""
   - distro: ubuntu1604
     init: /lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw"
 
 services:
   # Tell Travis to start Docker when it brings up an environment.
