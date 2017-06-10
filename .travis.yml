@@ -47,7 +47,7 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Check for the Music Player Daemon process
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ps -ef'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ps -ef | grep mpd | grep -v grep'
 
   # Check for the Music Player Daemon control port
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 6600'
