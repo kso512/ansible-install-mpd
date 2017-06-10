@@ -187,7 +187,7 @@
     - services
 
 - name: Validate systemd configuration files if new
-  command: "systemd-analyze verify {{ ansible_install_mpd_upstart_dest }}"
+  command: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
   when: systemd_service_template_output.changed or systemd_socket_template_output.changed
   tags:
     - ansible-install-mpd
