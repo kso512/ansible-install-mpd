@@ -1,6 +1,7 @@
 ---
 env:
   # Provide a list of OSes we want to use for testing.
+  - distro: debian8
   - distro: ubuntu1404
   - distro: ubuntu1604
 
