@@ -1,62 +1,25 @@
 ---
-sudo: required
-  # We need sudo for some of the Docker commands.
-
 env:
   # Provide a list of OSes we want to use for testing.
   - distro: ubuntu1404
-    init: /sbin/init
-    run_opts: ""
   - distro: ubuntu1604
-    init: /lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 
 services:
   # Tell Travis to start Docker when it brings up an environment.
   - docker
 
-before_install:
-  # Pull container from Docker Hub.
-  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
-
 script:
-  # Create a random file to store the container ID.
-  - container_id=$(mktemp)
-
-  # Run container detached, with our role mounted inside.
-  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/ansible-install-mpd:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
-
-  # Basic role syntax check
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    ansible-playbook /etc/ansible/roles/ansible-install-mpd/tests/test.yml
-    --syntax-check
-
-  # Run the playbook and hope for no errors
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    ansible-playbook /etc/ansible/roles/ansible-install-mpd/tests/test.yml
-
-  # Run the playbook one more time and hope for no changes to make sure its idempotent
-  - idempotence=$(mktemp)
-  - >
-    docker exec "$(cat ${container_id})"
-    ansible-playbook /etc/ansible/roles/ansible-install-mpd/tests/test.yml
-    | tee -a ${idempotence}
-  - >
-    tail ${idempotence}
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+  # Run tests.
+  - ${PWD}/tests/test.sh
 
   # Check for the Music Player Daemon process
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ps -ef | grep mpd | grep -v grep'
+#  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ps -ef | grep mpd | grep -v grep'
 
   # Check for the Music Player Daemon control port
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 6600'
+#  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 6600'
 
   # Check for the Music Player Daemon HTTPD out port
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 8000'
+#  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ss -lnt | grep 8000'
 
 notifications:
   # Notify Ansible Galaxy when a role builds successfully.
