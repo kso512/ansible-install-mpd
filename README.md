@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/kso512/ansible-install-mpd.svg?branch=master)](https://travis-ci.org/kso512/ansible-install-mpd)
 
-# ansible-install-mpd
+# [ansible-install-mpd](https://galaxy.ansible.com/kso512/ansible-install-mpd/)
 
 An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/playbooks_roles.html#roles) to install the [Music Player Daemon](http://www.musicpd.org/) application from source instead of via a package manager.  Some package managers may not include features such as MP3 support, so compiling from source may help.
 
@@ -8,6 +8,7 @@ I do **NOT** recommend the default configuration for unprotected connection dire
 
 Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
 
+- [Debian 8 Jessie](https://www.debian.org/releases/jessie/)
 - [Ubuntu 14.04 LTS Xenial Xerus](http://releases.ubuntu.com/xenial/)
 - [Ubuntu 16.04 LTS Trusty Tahr](http://releases.ubuntu.com/trusty/)
 
