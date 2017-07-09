@@ -14,7 +14,7 @@ ansible_install_mpd_pid_file: "{{ ansible_install_mpd_home }}/pid"
 ansible_install_mpd_playlist_directory: "{{ ansible_install_mpd_home }}/playlist"
 ansible_install_mpd_port: 6600
 ansible_install_mpd_ratings_file: "{{ ansible_install_mpd_home }}/ratings.db"
-ansible_install_mpd_shortname: mpd-0.20.6
+ansible_install_mpd_shortname: mpd-0.20.9
 ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}"
 ansible_install_mpd_src_base: "{{ ansible_install_mpd_home }}/src"
 ansible_install_mpd_state_file: "{{ ansible_install_mpd_home }}/state"
