@@ -8,9 +8,9 @@ I do **NOT** recommend the default configuration for unprotected connection dire
 
 Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
 
-- [Debian 8 Jessie](https://www.debian.org/releases/jessie/)
-- [Ubuntu 14.04 LTS Xenial Xerus](http://releases.ubuntu.com/xenial/)
-- [Ubuntu 16.04 LTS Trusty Tahr](http://releases.ubuntu.com/trusty/)
+- [Debian 8 "Jessie"](https://www.debian.org/releases/jessie/)
+- [Ubuntu 14.04 LTS "Xenial Xerus"](http://releases.ubuntu.com/xenial/)
+- [Ubuntu 16.04 LTS "Trusty Tahr"](http://releases.ubuntu.com/trusty/)
 
 ## Requirements
 
@@ -107,6 +107,7 @@ List of APT packages installed as pre-requisites:
 - libshout3-dev
 - libsidplay2-dev
 - libsidutils-dev
+- libsmbclient
 - libsmbclient-dev
 - libsndfile1-dev
 - libsoxr-dev
