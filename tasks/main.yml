@@ -1,6 +1,18 @@
 ---
 # tasks file for ansible-install-mpd
 
+- name: Set distro-specific variables
+  include_vars:
+    file: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution_release }}.yml"
+    - "default.yml"
+  tags:
+    - ansible-install-mpd
+    - packages
+    - files
+    - users
+
 - name: Make group for Music Player Daemon user
   group:
     name: "{{ ansible_install_mpd_user }}"
@@ -66,20 +78,31 @@
     - ansible-install-mpd
     - packages
 
-- name: Create softlink for gcc-4.9
+- name: Install GCC/G++
+  apt:
+    name: "g++-{{ ansible_install_mpd_gcc_version }}"
+    cache_valid_time: 3600
+    state: installed
+  tags:
+    - ansible-install-mpd
+    - packages
+
+- name: Create softlink for gcc
   file:
     path: /usr/bin/gcc
-    src: /usr/bin/gcc-4.9
+    src: "/usr/bin/gcc-{{ ansible_install_mpd_gcc_version }}"
     state: link
+#  when: ansible_distribution_release != "stretch"
   tags:
     - ansible-install-mpd
     - files
 
-- name: Create softlink for g++-4.9
+- name: Create softlink for g++
   file:
     path: /usr/bin/g++
-    src: /usr/bin/g++-4.9
+    src: "/usr/bin/g++-{{ ansible_install_mpd_gcc_version }}"
     state: link
+#  when: ansible_distribution_release != "stretch"
   tags:
     - ansible-install-mpd
     - files
