@@ -125,8 +125,8 @@ List of APT packages installed as pre-requisites:
 
 This role utilizes [`include_vars` and `with_first_found`](http://docs.ansible.com/ansible/include_vars_module.html) with the `ansible_install_mpd_gcc_version` variable to specify which version of the Gnu C Compiler to install.
 
-Debian systems default to g++-4.9 until Debian 9 "Stretch" which uses g++-6.
-Ubuntu systems default to g++-4.9.
+- Debian systems default to `g++-4.9` until Debian 9 "Stretch" which uses `g++-6`.
+- Ubuntu systems default to `g++-4.9`.
 
 ## Dependencies
 
