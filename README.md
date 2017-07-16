@@ -9,6 +9,7 @@ I do **NOT** recommend the default configuration for unprotected connection dire
 Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
 
 - [Debian 8 "Jessie"](https://www.debian.org/releases/jessie/)
+- [Debian 9 "Stretch"](https://www.debian.org/releases/stretch/)
 - [Ubuntu 14.04 LTS "Xenial Xerus"](http://releases.ubuntu.com/xenial/)
 - [Ubuntu 16.04 LTS "Trusty Tahr"](http://releases.ubuntu.com/trusty/)
 
@@ -68,7 +69,6 @@ Example of a HTTP stream output in the `ansible_install_mpd_audio_output` dictio
 List of APT packages installed as pre-requisites:
 
 - cmake
-- g++-4.9
 - libao-dev
 - libasound2-dev
 - libaudiofile-dev
@@ -120,6 +120,13 @@ List of APT packages installed as pre-requisites:
 - libyajl-dev
 - libzzip-dev
 - xmlto
+
+### GCC
+
+This role utilizes [`include_vars` and `with_first_found`](http://docs.ansible.com/ansible/include_vars_module.html) with the `ansible_install_mpd_gcc_version` variable to specify which version of the Gnu C Compiler to install.
+
+Debian systems default to g++-4.9 until Debian 9 "Stretch" which uses g++-6.
+Ubuntu systems default to g++-4.9.
 
 ## Dependencies
 
