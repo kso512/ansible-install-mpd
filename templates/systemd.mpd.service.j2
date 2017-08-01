@@ -5,6 +5,8 @@ After=network.target sound.target
 
 [Service]
 ExecStart={{ ansible_install_mpd_executable }} --no-daemon {{ ansible_install_mpd_conf }}
+Restart=always
+RestartSec=10
 
 # allow MPD to use real-time priority 50
 LimitRTPRIO=50
@@ -13,6 +15,12 @@ LimitRTTIME=infinity
 # disallow writing to /usr, /bin, /sbin, ...
 ProtectSystem=yes
 
+# more paranoid security settings
+NoNewPrivileges=yes
+ProtectKernelModules=yes
+
+# AF_NETLINK is required by libsmbclient, or it will exit() .. *sigh*
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+
 [Install]
 WantedBy=multi-user.target
-Also=mpd.socket
