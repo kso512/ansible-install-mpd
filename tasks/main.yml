@@ -92,7 +92,6 @@
     path: /usr/bin/gcc
     src: "/usr/bin/gcc-{{ ansible_install_mpd_gcc_version }}"
     state: link
-#  when: ansible_distribution_release != "stretch"
   tags:
     - ansible-install-mpd
     - files
@@ -102,7 +101,6 @@
     path: /usr/bin/g++
     src: "/usr/bin/g++-{{ ansible_install_mpd_gcc_version }}"
     state: link
-#  when: ansible_distribution_release != "stretch"
   tags:
     - ansible-install-mpd
     - files
@@ -195,24 +193,9 @@
     - files
     - services
 
-- name: Generate systemd socket configuration file
-  template:
-    dest: "{{ ansible_install_mpd_systemd_socket_dest }}"
-    group: root
-    owner: root
-    mode: 0644
-    src: "{{ ansible_install_mpd_systemd_socket_src }}"
-  when: ansible_service_mgr == "systemd"
-  notify: Restart the Music Player Daemon service
-  register: systemd_socket_template_output
-  tags:
-    - ansible-install-mpd
-    - files
-    - services
-
 - name: Validate systemd configuration files if new
   command: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
-  when: systemd_service_template_output.changed or systemd_socket_template_output.changed
+  when: systemd_service_template_output.changed
   tags:
     - ansible-install-mpd
     - files
