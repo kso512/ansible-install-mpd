@@ -10,7 +10,6 @@ Tested with [Travis continuous integration](https://travis-ci.org/) on the follo
 
 - [Debian 8 "Jessie"](https://www.debian.org/releases/jessie/)
 - [Debian 9 "Stretch"](https://www.debian.org/releases/stretch/)
-- [Ubuntu 14.04 LTS "Xenial Xerus"](http://releases.ubuntu.com/xenial/)
 - [Ubuntu 16.04 LTS "Trusty Tahr"](http://releases.ubuntu.com/trusty/)
 
 ## Requirements
