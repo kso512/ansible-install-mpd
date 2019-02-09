@@ -1,19 +1,19 @@
 ---
 # tasks file for ansible-install-mpd
 
-- name: Set distro-specific variables
-  include_vars:
-    file: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution_release }}.yml"
-    - "default.yml"
-  tags:
-    - ansible-install-mpd
-    - packages
-    - files
-    - users
+#- name: Set distro-specific variables | INCLUDE_VARS
+#  include_vars:
+#    file: "{{ item }}"
+#  with_first_found:
+#    - "{{ ansible_distribution_release }}.yml"
+#    - "default.yml"
+#  tags:
+#    - ansible-install-mpd
+#    - packages
+#    - files
+#    - users
 
-- name: Make group for Music Player Daemon user
+- name: Make group for Music Player Daemon user | GROUP
   group:
     name: "{{ ansible_install_mpd_user }}"
     state: present
@@ -21,7 +21,7 @@
     - ansible-install-mpd
     - users
 
-- name: Make user for Music Player Daemon
+- name: Make user for Music Player Daemon | USER
   user:
     name: "{{ ansible_install_mpd_user }}"
     group: "{{ ansible_install_mpd_group }}"
@@ -31,7 +31,7 @@
     - ansible-install-mpd
     - users
 
-- name: Create needed directories
+- name: Create needed directories | FILE
   file:
     path: "{{ item }}"
     owner: "{{ ansible_install_mpd_user }}"
@@ -46,7 +46,16 @@
     - ansible-install-mpd
     - files
 
-- name: Download and extract tar package
+- name: Install pre-requisites | APT
+  apt:
+    name: "{{ ansible_install_mpd_apt_prereqs }}"
+    cache_valid_time: 3600
+    state: latest
+  tags:
+    - ansible-install-mpd
+    - packages
+
+- name: Download and extract tar package | UNARCHIVE
   unarchive:
     remote_src: yes
     dest: "{{ ansible_install_mpd_src_base }}"
@@ -58,7 +67,7 @@
     - ansible-install-mpd
     - files
 
-- name: Add ubuntu-toolchain-r/test PPA
+- name: Add ubuntu-toolchain-r/test PPA | APT_REPOSITORY
   apt_repository:
     repo: 'ppa:ubuntu-toolchain-r/test'
     update_cache: yes
@@ -67,27 +76,16 @@
     - ansible-install-mpd
     - packages
 
-- name: Install pre-requisites
-  apt:
-    name: "{{ item }}"
-    cache_valid_time: 3600
-    state: latest
-  with_items:
-    - "{{ ansible_install_mpd_apt_prereqs }}"
-  tags:
-    - ansible-install-mpd
-    - packages
-
-- name: Install GCC/G++
+- name: Install GCC/G++ | APT
   apt:
     name: "g++-{{ ansible_install_mpd_gcc_version }}"
     cache_valid_time: 3600
-    state: installed
+    state: present
   tags:
     - ansible-install-mpd
     - packages
 
-- name: Create softlink for gcc
+- name: Create softlink for gcc | FILE
   file:
     path: /usr/bin/gcc
     src: "/usr/bin/gcc-{{ ansible_install_mpd_gcc_version }}"
@@ -96,7 +94,7 @@
     - ansible-install-mpd
     - files
 
-- name: Create softlink for g++
+- name: Create softlink for g++ | FILE
   file:
     path: /usr/bin/g++
     src: "/usr/bin/g++-{{ ansible_install_mpd_gcc_version }}"
@@ -105,123 +103,66 @@
     - ansible-install-mpd
     - files
 
-- name: Configure source before make
-  command: "{{ ansible_install_mpd_src }}/configure -q --enable-httpd-output --enable-shout --enable-vorbis"
+- name: Use pip to install meson | PIP
+  pip:
+    name: meson
+    executable: pip3
+    state: present
+  tags:
+    - ansible-install-mpd
+    - packages
+
+- name: If needed, configure source before compiling | COMMAND
+  command: "meson . output/release --buildtype=debugoptimized -Db_ndebug=true"
   args:
     chdir: "{{ ansible_install_mpd_src }}"
-    creates: "{{ ansible_install_mpd_src }}/Makefile"
+    creates: "{{ ansible_install_mpd_src }}/output/release/build.ninja"
   become_user: "{{ ansible_install_mpd_user }}"
   tags:
     - ansible-install-mpd
     - files
 
-- name: See if executable already exists
-  stat:
-    get_checksum: False
-    get_md5: False
-    path: "{{ ansible_install_mpd_src }}/src/mpd"
-  register: stat_output_exec
-  tags:
-    - ansible-install-mpd
-    - files
-
-- name: If not, use make to compile the source
-  make:
+- name: If needed, compile the source | COMMAND
+  command: "ninja -C output/release"
+  args:
     chdir: "{{ ansible_install_mpd_src }}"
+    creates: "{{ ansible_install_mpd_src }}/output/release/mpd"
   become_user: "{{ ansible_install_mpd_user }}"
-  when: not stat_output_exec.stat.exists
   tags:
     - ansible-install-mpd
     - files
 
-- name: See if executable is already installed
-  stat:
-    get_checksum: False
-    get_md5: False
-    path: "{{ ansible_install_mpd_executable }}"
-  register: stat_output_install
-  tags:
-    - ansible-install-mpd
-    - files
-
-- name: If not, use make to install the compiled source
-  make:
+- name: If needed, install the compiled source | COMMAND
+  command: "ninja -C output/release install"
+  args:
     chdir: "{{ ansible_install_mpd_src }}"
-    target: install
-  when: not stat_output_install.stat.exists
+    creates: "/usr/local/bin/mpd"
+  become_user: "{{ ansible_install_mpd_user }}"
   tags:
     - ansible-install-mpd
     - files
 
-# Validation in the template tasks below fail because the file ansible 
-# uses to validate don't work, so we'll use a separate task.
-- name: Generate upstart configuration file
-  template:
-    dest: "{{ ansible_install_mpd_upstart_dest }}"
-    group: root
-    owner: root
-    mode: 0644
-    src: "{{ ansible_install_mpd_upstart_src }}"
-  when: ansible_service_mgr == "upstart"
-  notify: Restart the Music Player Daemon service
-  register: upstart_template_output
-  tags:
-    - ansible-install-mpd
-    - files
-    - services
-
-- name: Validate upstart configuration file if new
-  command: "init-checkconf {{ ansible_install_mpd_upstart_dest }}"
-  when: upstart_template_output.changed
-  tags:
-    - ansible-install-mpd
-    - files
-    - services
-
-- name: Generate systemd service configuration file
-  template:
-    dest: "{{ ansible_install_mpd_systemd_service_dest }}"
-    group: root
-    owner: root
-    mode: 0644
-    src: "{{ ansible_install_mpd_systemd_service_src }}"
-  when: ansible_service_mgr == "systemd"
-  notify: Restart the Music Player Daemon service
-  register: systemd_service_template_output
-  tags:
-    - ansible-install-mpd
-    - files
-    - services
-
-- name: Validate systemd configuration files if new
-  command: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
-  when: systemd_service_template_output.changed
-  tags:
-    - ansible-install-mpd
-    - files
-    - services
-
-- name: Generate MPD configuration file
+- name: Generate MPD configuration file | TEMPLATE
   template:
     dest: "{{ ansible_install_mpd_conf }}"
     owner: "{{ ansible_install_mpd_user }}"
     group: "{{ ansible_install_mpd_group }}"
     mode: 0644
     src: "{{ ansible_install_mpd_conf_src }}"
-  notify: Restart the Music Player Daemon service
+  notify: Restart the Music Player Daemon socket | COMMAND
   tags:
     - ansible-install-mpd
     - files
 
-- name: Enable the Music Player Daemon service on next boot
-  service:
-    name: mpd
-    enabled: yes
+- name: Enable the Music Player Daemon service on next boot | COMMAND
+  command: "systemctl enable mpd.socket"
+  args:
+    creates: "/etc/systemd/system/sockets.target.wants/mpd.socket"
   tags:
     - ansible-install-mpd
     - services
 
-- name: Touch some needed files
+- name: Touch some needed files | TOUCH
   file:
     path: "{{ item }}"
     owner: "{{ ansible_install_mpd_user }}"

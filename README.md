@@ -8,9 +8,9 @@ I do **NOT** recommend the default configuration for unprotected connection dire
 
 Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
 
-- [Debian 8 "Jessie"](https://www.debian.org/releases/jessie/)
 - [Debian 9 "Stretch"](https://www.debian.org/releases/stretch/)
-- [Ubuntu 16.04 LTS "Trusty Tahr"](http://releases.ubuntu.com/trusty/)
+- [Ubuntu 16.04 LTS "Xenial Xerus"](http://releases.ubuntu.com/16.04/)
+- [Ubuntu 18.04 LTS "Bionic Beaver"](http://releases.ubuntu.com/18.04/)
 
 ## Requirements
 
@@ -18,7 +18,7 @@ If the server has a firewall enabled, it may need to be altered to allow incomin
 
 ## Role Variables
 
-The defaults shown below work "out-of-the-box" and only need customization if they don't meet your needs.
+The defaults shown below should work "out-of-the-box" and only need customization if they don't meet your needs.
 
 | Name | Description | Default Value |
 | ---- | ----------- | ------------- |
@@ -28,6 +28,7 @@ The defaults shown below work "out-of-the-box" and only need customization if th
 | ansible_install_mpd_db_file | Fully-qualified file name of the MPD database file | `{{ ansible_install_mpd_home }}/database` |
 | ansible_install_mpd_executable | Fully-qualified file name of the MPD executable | `/usr/local/bin/mpd` |
 | ansible_install_mpd_filename | Full name of the MPD archive | `{{ ansible_install_mpd_shortname }}.tar.gz` |
+| ansible_install_mpd_gcc_version | Version of the Gnu C Compiler to install | `6` |
 | ansible_install_mpd_group | Group of the user that will own the daemon process | `mpd` |
 | ansible_install_mpd_home | Main directory for the application to run in | `/home/mpd` |
 | ansible_install_mpd_log_file | Fully-qualified file name of the MPD log file | `{{ ansible_install_mpd_home }}/log` |
@@ -35,7 +36,7 @@ The defaults shown below work "out-of-the-box" and only need customization if th
 | ansible_install_mpd_pid_file | Fully-qualified file name of the MPD PID file | `{{ ansible_install_mpd_home }}/pid` |
 | ansible_install_mpd_playlist_directory | Folder to store playlists in | `{{ ansible_install_mpd_home }}/playlist` |
 | ansible_install_mpd_port | Address to bind the control interface to | `6600` |
-| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.20.9` |
+| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.21.4` |
 | ansible_install_mpd_src | Directory to unarchive the source code in | `{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}` |
 | ansible_install_mpd_src_base | Directory to place the source code archive in | `{{ ansible_install_mpd_home }}/src` |
 | ansible_install_mpd_state_file | Fully-qualified file name of the MPD state file | `{{ ansible_install_mpd_home }}/state` |
@@ -46,7 +47,7 @@ The defaults shown below work "out-of-the-box" and only need customization if th
 | ansible_install_mpd_systemd_socket_src | Relative or fully-qualified file name of the MPD systemd socket unit file source | `systemd.mpd.socket.j2` |
 | ansible_install_mpd_upstart_dest | Fully-qualified file name of the MPD upstart configuration file | `/etc/init/mpd.conf` |
 | ansible_install_mpd_upstart_src | Relative or fully-qualified file name of the MPD upstart configuration file source | `upstart.mpd.conf.j2` |
-| ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.20` |
+| ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.21` |
 | ansible_install_mpd_user | Name of the user that will own the daemon process | `mpd` |
 | ansible_install_mpd_audio_output | Dictionary containing audio output definitions | (See **NOTE A** below) |
 | ansible_install_mpd_apt_prereqs | List of APT packages to install | (See **NOTE B** below) |
@@ -68,13 +69,15 @@ Example of a HTTP stream output in the `ansible_install_mpd_audio_output` dictio
 List of APT packages installed as pre-requisites:
 
 - cmake
+- libadplug-dev
 - libao-dev
 - libasound2-dev
+- libaudio-mpd-perl
 - libaudiofile-dev
 - libavahi-client-dev
 - libavcodec-dev
 - libavformat-dev
-- libboost-dev
+- libboost-all-dev
 - libbz2-dev
 - libcdio-paranoia-dev
 - libcppunit-dev
@@ -84,6 +87,7 @@ List of APT packages installed as pre-requisites:
 - libflac-dev
 - libfluidsynth-dev
 - libgme-dev
+- libgtest-dev
 - libicu-dev
 - libid3tag0-dev
 - libiso9660-dev
@@ -99,6 +103,7 @@ List of APT packages installed as pre-requisites:
 - libnfs-dev
 - libopenal-dev
 - libopus-dev
+- libpcre3-dev
 - libpulse-dev
 - libresid-builder-dev
 - libroar-dev
@@ -109,8 +114,11 @@ List of APT packages installed as pre-requisites:
 - libsmbclient
 - libsmbclient-dev
 - libsndfile1-dev
+- libsndio-dev
 - libsoxr-dev
 - libsqlite3-dev
+- libsystemd-dev
+- libtwolame-dev
 - libupnp-dev
 - libvorbis-dev
 - libwavpack-dev
@@ -118,14 +126,11 @@ List of APT packages installed as pre-requisites:
 - libwrap0-dev
 - libyajl-dev
 - libzzip-dev
+- ninja-build
+- python3
+- python3-pip
+- unzip
 - xmlto
-
-### GCC
-
-This role utilizes [`include_vars` and `with_first_found`](http://docs.ansible.com/ansible/include_vars_module.html) with the `ansible_install_mpd_gcc_version` variable to specify which version of the Gnu C Compiler to install.
-
-- Debian systems default to `g++-4.9` until Debian 9 "Stretch" which uses `g++-6`.
-- Ubuntu systems default to `g++-4.9`.
 
 ## Dependencies
 

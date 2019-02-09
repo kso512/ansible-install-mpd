@@ -10,11 +10,11 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - jessie
         - stretch
     - name: Ubuntu
       versions:
         - xenial
+        - bionic
 
   galaxy_tags:
     - mpd

@@ -1,3 +1,0 @@
----
-# vars file for ansible-install-mpd:jessie
-ansible_install_mpd_gcc_version: 4.9

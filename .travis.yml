@@ -4,6 +4,7 @@ env:
   - distro: debian8
   - distro: debian9
   - distro: ubuntu1604
+  - distro: ubuntu1804
 
 services:
   # Tell Travis to start Docker when it brings up an environment.
