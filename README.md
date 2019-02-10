@@ -45,8 +45,6 @@ The defaults shown below should work "out-of-the-box" and only need customizatio
 | ansible_install_mpd_systemd_service_src | Relative or fully-qualified file name of the MPD systemd service unit file source | `systemd.mpd.service.j2` |
 | ansible_install_mpd_systemd_socket_dest | Fully-qualified file name of the MPD systemd socket unit file | `/lib/systemd/system/mpd.socket` |
 | ansible_install_mpd_systemd_socket_src | Relative or fully-qualified file name of the MPD systemd socket unit file source | `systemd.mpd.socket.j2` |
-| ansible_install_mpd_upstart_dest | Fully-qualified file name of the MPD upstart configuration file | `/etc/init/mpd.conf` |
-| ansible_install_mpd_upstart_src | Relative or fully-qualified file name of the MPD upstart configuration file source | `upstart.mpd.conf.j2` |
 | ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.21` |
 | ansible_install_mpd_user | Name of the user that will own the daemon process | `mpd` |
 | ansible_install_mpd_audio_output | Dictionary containing audio output definitions | (See **NOTE A** below) |
