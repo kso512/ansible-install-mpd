@@ -20,12 +20,10 @@ ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_
 ansible_install_mpd_src_base: "{{ ansible_install_mpd_home }}/src"
 ansible_install_mpd_state_file: "{{ ansible_install_mpd_home }}/state"
 ansible_install_mpd_sticker_file: "{{ ansible_install_mpd_home }}/sticker.sql"
-ansible_install_mpd_systemd_service_dest: /lib/systemd/system/mpd.service
+ansible_install_mpd_systemd_service_dest: /usr/local/lib/systemd/system/mpd.service
 ansible_install_mpd_systemd_service_src: systemd.mpd.service.j2
 ansible_install_mpd_systemd_socket_dest: /lib/systemd/system/mpd.socket
 ansible_install_mpd_systemd_socket_src: systemd.mpd.socket.j2
-ansible_install_mpd_upstart_dest: /etc/init/mpd.conf
-ansible_install_mpd_upstart_src: upstart.mpd.conf.j2
 ansible_install_mpd_url_base: http://www.musicpd.org/download/mpd/0.21
 ansible_install_mpd_user: mpd
 ansible_install_mpd_audio_output:
@@ -38,6 +36,7 @@ ansible_install_mpd_audio_output:
     format: "44100:16:2"
 ansible_install_mpd_apt_prereqs:
   - cmake
+  - iproute2
   - libadplug-dev
   - libao-dev
   - libasound2-dev
