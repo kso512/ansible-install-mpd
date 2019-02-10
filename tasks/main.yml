@@ -1,18 +1,6 @@
 ---
 # tasks file for ansible-install-mpd
 
-#- name: Set distro-specific variables | INCLUDE_VARS
-#  include_vars:
-#    file: "{{ item }}"
-#  with_first_found:
-#    - "{{ ansible_distribution_release }}.yml"
-#    - "default.yml"
-#  tags:
-#    - ansible-install-mpd
-#    - packages
-#    - files
-#    - users
-
 - name: Make group for Music Player Daemon user | GROUP
   group:
     name: "{{ ansible_install_mpd_user }}"
@@ -149,15 +137,36 @@
     group: "{{ ansible_install_mpd_group }}"
     mode: 0644
     src: "{{ ansible_install_mpd_conf_src }}"
-  notify: Restart the Music Player Daemon socket | COMMAND
+  notify: Restart the Music Player Daemon service | SERVICE
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: Generate systemd service configuration file | TEMPLATE
+  template:
+    dest: "{{ ansible_install_mpd_systemd_service_dest }}"
+    group: root
+    owner: root
+    mode: 0644
+    src: "{{ ansible_install_mpd_systemd_service_src }}"
+  when: ansible_service_mgr == "systemd"
+  register: systemd_service_template_output
+  notify: Restart the Music Player Daemon service | SERVICE
+  tags:
+    - ansible-install-mpd
+    - files
+
+- name: Validate systemd configuration files if new | COMMAND
+  command: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
+  when: systemd_service_template_output.changed
   tags:
     - ansible-install-mpd
     - files
 
 - name: Enable the Music Player Daemon service on next boot | COMMAND
-  command: "systemctl enable mpd.socket"
+  command: "systemctl enable mpd.service"
   args:
-    creates: "/etc/systemd/system/sockets.target.wants/mpd.socket"
+    creates: "/etc/systemd/system/multi-user.target.wants/mpd.service"
   tags:
     - ansible-install-mpd
     - services
