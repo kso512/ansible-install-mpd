@@ -109,9 +109,6 @@ docker exec $container_id ps -ef | grep mpd | grep -v grep
 # Check for the Music Player Daemon control port
 docker exec $container_id ss -lnt | grep 6600
 
-# Check for the Music Player Daemon HTTPD out port
-docker exec $container_id ss -lnt | grep 8000
-
 # Remove the Docker container (if configured).
 if [ "$cleanup" = true ]; then
   printf "Removing Docker container...\n"
