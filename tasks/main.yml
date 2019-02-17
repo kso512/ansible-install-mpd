@@ -38,7 +38,7 @@
   apt:
     name: "{{ ansible_install_mpd_apt_prereqs }}"
     cache_valid_time: 3600
-    state: latest
+    state: present
   tags:
     - ansible-install-mpd
     - packages
@@ -106,6 +106,7 @@
     chdir: "{{ ansible_install_mpd_src }}"
     creates: "{{ ansible_install_mpd_src }}/output/release/build.ninja"
   become_user: "{{ ansible_install_mpd_user }}"
+  become: yes
   tags:
     - ansible-install-mpd
     - files
@@ -116,6 +117,7 @@
     chdir: "{{ ansible_install_mpd_src }}"
     creates: "{{ ansible_install_mpd_src }}/output/release/mpd"
   become_user: "{{ ansible_install_mpd_user }}"
+  become: yes
   tags:
     - ansible-install-mpd
     - files
@@ -126,6 +128,7 @@
     chdir: "{{ ansible_install_mpd_src }}"
     creates: "/usr/local/bin/mpd"
   become_user: "{{ ansible_install_mpd_user }}"
+  become: yes
   tags:
     - ansible-install-mpd
     - files
@@ -151,14 +154,9 @@
     src: "{{ ansible_install_mpd_systemd_service_src }}"
   when: ansible_service_mgr == "systemd"
   register: systemd_service_template_output
-  notify: Restart the Music Player Daemon service | SERVICE
-  tags:
-    - ansible-install-mpd
-    - files
-
-- name: Validate systemd configuration files if new | COMMAND
-  command: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
-  when: systemd_service_template_output.changed
+  notify: 
+    - Validate systemd configuration files if new | COMMAND
+    - Restart the Music Player Daemon service | SERVICE
   tags:
     - ansible-install-mpd
     - files
