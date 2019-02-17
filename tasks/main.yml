@@ -127,8 +127,6 @@
   args:
     chdir: "{{ ansible_install_mpd_src }}"
     creates: "/usr/local/bin/mpd"
-  become_user: "{{ ansible_install_mpd_user }}"
-  become: yes
   tags:
     - ansible-install-mpd
     - files
