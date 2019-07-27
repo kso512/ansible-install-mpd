@@ -1,6 +1,18 @@
 ---
 # tasks file for ansible-install-mpd
 
+- name: Set distro-specific variables | INCLUDE_VARS
+  include_vars:
+    file: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution_release }}.yml"
+    - "default.yml"
+  tags:
+    - ansible-install-mpd
+    - packages
+    - files
+    - users
+
 - name: Make group for Music Player Daemon user | GROUP
   group:
     name: "{{ ansible_install_mpd_user }}"

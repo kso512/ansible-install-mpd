@@ -2,6 +2,7 @@
 env:
   # Provide a list of OSes we want to use for testing.
   - distro: debian9
+  - distro: debian10
   - distro: ubuntu1604
   - distro: ubuntu1804
 

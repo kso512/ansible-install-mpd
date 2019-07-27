@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/kso512/ansible-install-mpd.svg?branch=master)](https://travis-ci.org/kso512/ansible-install-mpd)
-
 # [ansible-install-mpd](https://galaxy.ansible.com/kso512/ansible-install-mpd/)
+
+[![Build Status](https://travis-ci.org/kso512/ansible-install-mpd.svg?branch=master)](https://travis-ci.org/kso512/ansible-install-mpd)
 
 An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/playbooks_roles.html#roles) to install the [Music Player Daemon](http://www.musicpd.org/) application from source instead of via a package manager.  Some package managers may not include features such as MP3 support, so compiling from source may help.
 
@@ -9,6 +9,7 @@ I do **NOT** recommend the default configuration for unprotected connection dire
 Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
 
 - [Debian 9 "Stretch"](https://www.debian.org/releases/stretch/)
+- [Debian 10 "Buster"](https://www.debian.org/releases/buster/)
 - [Ubuntu 16.04 LTS "Xenial Xerus"](http://releases.ubuntu.com/16.04/)
 - [Ubuntu 18.04 LTS "Bionic Beaver"](http://releases.ubuntu.com/18.04/)
 
@@ -28,7 +29,7 @@ The defaults shown below should work "out-of-the-box" and only need customizatio
 | ansible_install_mpd_db_file | Fully-qualified file name of the MPD database file | `{{ ansible_install_mpd_home }}/database` |
 | ansible_install_mpd_executable | Fully-qualified file name of the MPD executable | `/usr/local/bin/mpd` |
 | ansible_install_mpd_filename | Full name of the MPD archive | `{{ ansible_install_mpd_shortname }}.tar.gz` |
-| ansible_install_mpd_gcc_version | Version of the Gnu C Compiler to install | `6` |
+| ansible_install_mpd_gcc_version | Version of the Gnu C Compiler to install | (See **NOTE A** below) |
 | ansible_install_mpd_group | Group of the user that will own the daemon process | `mpd` |
 | ansible_install_mpd_home | Main directory for the application to run in | `/home/mpd` |
 | ansible_install_mpd_log_file | Fully-qualified file name of the MPD log file | `{{ ansible_install_mpd_home }}/log` |
@@ -47,10 +48,17 @@ The defaults shown below should work "out-of-the-box" and only need customizatio
 | ansible_install_mpd_systemd_socket_src | Relative or fully-qualified file name of the MPD systemd socket unit file source | `systemd.mpd.socket.j2` |
 | ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.21` |
 | ansible_install_mpd_user | Name of the user that will own the daemon process | `mpd` |
-| ansible_install_mpd_audio_output | Dictionary containing audio output definitions | (See **NOTE A** below) |
-| ansible_install_mpd_apt_prereqs | List of APT packages to install | (See **NOTE B** below) |
+| ansible_install_mpd_audio_output | Dictionary containing audio output definitions | (See **NOTE B** below) |
+| ansible_install_mpd_apt_prereqs | List of APT packages to install | (See **NOTE C** below) |
 
 **NOTE A**
+
+This role utilizes [`include_vars` and `with_first_found`](http://docs.ansible.com/ansible/include_vars_module.html) with the `ansible_install_mpd_gcc_version` variable to specify which version of the Gnu C Compiler to install.
+
+- Debian systems default to `6` until Debian 10 "Buster" which uses `7`.
+- Ubuntu systems default to `6`.
+
+**NOTE B**
 
 Example of a HTTP stream output in the `ansible_install_mpd_audio_output` dictionary:
 
@@ -62,7 +70,7 @@ Example of a HTTP stream output in the `ansible_install_mpd_audio_output` dictio
       bitrate: 128
       format: "44100:16:2"
 
-**NOTE B**
+**NOTE C**
 
 List of APT packages installed as pre-requisites:
 
