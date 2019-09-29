@@ -37,7 +37,7 @@ The defaults shown below should work "out-of-the-box" and only need customizatio
 | ansible_install_mpd_pid_file | Fully-qualified file name of the MPD PID file | `{{ ansible_install_mpd_home }}/pid` |
 | ansible_install_mpd_playlist_directory | Folder to store playlists in | `{{ ansible_install_mpd_home }}/playlist` |
 | ansible_install_mpd_port | Address to bind the control interface to | `6600` |
-| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.21.14` |
+| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.21.15` |
 | ansible_install_mpd_src | Directory to unarchive the source code in | `{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}` |
 | ansible_install_mpd_src_base | Directory to place the source code archive in | `{{ ansible_install_mpd_home }}/src` |
 | ansible_install_mpd_state_file | Fully-qualified file name of the MPD state file | `{{ ansible_install_mpd_home }}/state` |
