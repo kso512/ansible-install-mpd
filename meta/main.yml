@@ -2,7 +2,7 @@ galaxy_info:
   author: Chris Lindbergh
   description: Ansible role to install Music Player Daemon from source
   company: Cold Creek Solutions
-  license: BSD
+  license: GPLv2
   min_ansible_version: 2.8.4
   platforms:
     - name: Debian
