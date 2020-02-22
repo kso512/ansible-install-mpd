@@ -99,4 +99,5 @@ ansible_install_mpd_apt_prereqs:
   - python3-pip
   - unzip
   - xmlto
+ansible_python_interpreter: /usr/bin/python3
 ...
