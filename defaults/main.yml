@@ -15,7 +15,7 @@ ansible_install_mpd_pid_file: "{{ ansible_install_mpd_home }}/pid"
 ansible_install_mpd_playlist_directory: "{{ ansible_install_mpd_home }}/playlist"
 ansible_install_mpd_port: 6600
 ansible_install_mpd_ratings_file: "{{ ansible_install_mpd_home }}/ratings.db"
-ansible_install_mpd_shortname: mpd-0.21.26
+ansible_install_mpd_shortname: mpd-0.22
 ansible_install_mpd_src: "{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}"
 ansible_install_mpd_src_base: "{{ ansible_install_mpd_home }}/src"
 ansible_install_mpd_state_file: "{{ ansible_install_mpd_home }}/state"
@@ -24,7 +24,7 @@ ansible_install_mpd_systemd_service_dest: /usr/local/lib/systemd/system/mpd.serv
 ansible_install_mpd_systemd_service_src: systemd.mpd.service.j2
 ansible_install_mpd_systemd_socket_dest: /lib/systemd/system/mpd.socket
 ansible_install_mpd_systemd_socket_src: systemd.mpd.socket.j2
-ansible_install_mpd_url_base: http://www.musicpd.org/download/mpd/0.21
+ansible_install_mpd_url_base: http://www.musicpd.org/download/mpd/0.22
 ansible_install_mpd_user: mpd
 ansible_install_mpd_audio_output:
   httpd:
@@ -45,15 +45,17 @@ ansible_install_mpd_apt_prereqs:
   - libavahi-client-dev
   - libavcodec-dev
   - libavformat-dev
-  - libboost-all-dev
+  - libboost-dev
   - libbz2-dev
   - libcdio-paranoia-dev
+  - libchromaprint-dev
   - libcppunit-dev
   - libcurl4-gnutls-dev
   - libexpat-dev
   - libfaad-dev
   - libflac-dev
   - libfluidsynth-dev
+  - libgcrypt20-dev
   - libgme-dev
   - libgtest-dev
   - libicu-dev
@@ -61,7 +63,7 @@ ansible_install_mpd_apt_prereqs:
   - libiso9660-dev
   - libjack-jackd2-dev
   - libmad0-dev
-  - libmikmod2-dev
+  - libmikmod-dev
   - libmms-dev
   - libmodplug-dev
   - libmp3lame-dev
@@ -69,6 +71,7 @@ ansible_install_mpd_apt_prereqs:
   - libmpdclient-dev
   - libmpg123-dev
   - libnfs-dev
+  - libogg-dev
   - libopenal-dev
   - libopus-dev
   - libpcre3-dev
@@ -76,6 +79,7 @@ ansible_install_mpd_apt_prereqs:
   - libresid-builder-dev
   - libroar-dev
   - libsamplerate0-dev
+  - libshine-dev
   - libshout3-dev
   - libsidplay2-dev
   - libsidutils-dev

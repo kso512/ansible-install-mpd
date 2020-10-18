@@ -31,7 +31,7 @@ The default values shown below should work "out-of-the-box" and only need custom
 | ansible_install_mpd_db_file | Fully-qualified file name of the MPD database file | `{{ ansible_install_mpd_home }}/database` |
 | ansible_install_mpd_executable | Fully-qualified file name of the MPD executable | `/usr/local/bin/mpd` |
 | ansible_install_mpd_filename | Full name of the MPD archive | `{{ ansible_install_mpd_shortname }}.tar.gz` |
-| ansible_install_mpd_gcc_version | Version of the Gnu C Compiler to install | (See [NOTE C](https://github.com/kso512/ansible-install-mpd#note-c) below) |
+| ansible_install_mpd_gcc_version | Version of the Gnu C Compiler to install | `8`) |
 | ansible_install_mpd_group | Group of the user that will own the daemon process | `mpd` |
 | ansible_install_mpd_home | Main directory for the application to run in | `/home/mpd` |
 | ansible_install_mpd_log_file | Fully-qualified file name of the MPD log file | `{{ ansible_install_mpd_home }}/log` |
@@ -39,7 +39,7 @@ The default values shown below should work "out-of-the-box" and only need custom
 | ansible_install_mpd_pid_file | Fully-qualified file name of the MPD PID file | `{{ ansible_install_mpd_home }}/pid` |
 | ansible_install_mpd_playlist_directory | Folder to store playlists in | `{{ ansible_install_mpd_home }}/playlist` |
 | ansible_install_mpd_port | Address to bind the control interface to | `6600` |
-| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.21.26` |
+| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.22` |
 | ansible_install_mpd_src | Directory to unarchive the source code in | `{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}` |
 | ansible_install_mpd_src_base | Directory to place the source code archive in | `{{ ansible_install_mpd_home }}/src` |
 | ansible_install_mpd_state_file | Fully-qualified file name of the MPD state file | `{{ ansible_install_mpd_home }}/state` |
@@ -48,7 +48,7 @@ The default values shown below should work "out-of-the-box" and only need custom
 | ansible_install_mpd_systemd_service_src | Relative or fully-qualified file name of the MPD systemd service unit file source | `systemd.mpd.service.j2` |
 | ansible_install_mpd_systemd_socket_dest | Fully-qualified file name of the MPD systemd socket unit file | `/lib/systemd/system/mpd.socket` |
 | ansible_install_mpd_systemd_socket_src | Relative or fully-qualified file name of the MPD systemd socket unit file source | `systemd.mpd.socket.j2` |
-| ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.21` |
+| ansible_install_mpd_url_base | Base of the URL to download the source code archive | `http://www.musicpd.org/download/mpd/0.22` |
 | ansible_install_mpd_user | Name of the user that will own the daemon process | `mpd` |
 
 ### NOTE A
@@ -64,15 +64,17 @@ List of APT packages installed as pre-requisites:
 - libavahi-client-dev
 - libavcodec-dev
 - libavformat-dev
-- libboost-all-dev
+- libboost-dev
 - libbz2-dev
 - libcdio-paranoia-dev
+- libchromaprint-dev
 - libcppunit-dev
 - libcurl4-gnutls-dev
 - libexpat-dev
 - libfaad-dev
 - libflac-dev
 - libfluidsynth-dev
+- libgcrypt20-dev
 - libgme-dev
 - libgtest-dev
 - libicu-dev
@@ -80,7 +82,7 @@ List of APT packages installed as pre-requisites:
 - libiso9660-dev
 - libjack-jackd2-dev
 - libmad0-dev
-- libmikmod2-dev
+- libmikmod-dev
 - libmms-dev
 - libmodplug-dev
 - libmp3lame-dev
@@ -88,6 +90,7 @@ List of APT packages installed as pre-requisites:
 - libmpdclient-dev
 - libmpg123-dev
 - libnfs-dev
+- libogg-dev
 - libopenal-dev
 - libopus-dev
 - libpcre3-dev
@@ -95,6 +98,7 @@ List of APT packages installed as pre-requisites:
 - libresid-builder-dev
 - libroar-dev
 - libsamplerate0-dev
+- libshine-dev
 - libshout3-dev
 - libsidplay2-dev
 - libsidutils-dev
@@ -130,13 +134,6 @@ Example of a HTTP stream output in the `ansible_install_mpd_audio_output` dictio
       port: 8000
       bitrate: 128
       format: "44100:16:2"
-
-### NOTE C
-
-This role utilizes [`include_vars` and `with_first_found`](http://docs.ansible.com/ansible/include_vars_module.html) with the `ansible_install_mpd_gcc_version` variable to specify which version of the Gnu C Compiler to install.
-
-- Debian systems default to `6` until Debian 10 "Buster" using `7`.
-- Ubuntu systems default to `6`.
 
 ## Dependencies
 
