@@ -1,4 +1,0 @@
----
-# vars file for ansible-install-mpd:buster
-ansible_install_mpd_gcc_version: 8
-...

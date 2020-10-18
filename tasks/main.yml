@@ -1,16 +1,5 @@
 ---
 # tasks file for ansible-install-mpd
-- name: Set distro-specific variables | INCLUDE_VARS
-  include_vars:
-    file: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution_release }}.yml"
-    - "default.yml"
-  tags:
-    - ansible-install-mpd
-    - packages
-    - files
-    - users
 - name: Make group for Music Player Daemon user | GROUP
   group:
     name: "{{ ansible_install_mpd_user }}"
@@ -60,14 +49,6 @@
   tags:
     - ansible-install-mpd
     - files
-- name: Add ubuntu-toolchain-r/test PPA | APT_REPOSITORY
-  apt_repository:
-    repo: 'ppa:ubuntu-toolchain-r/test'
-    update_cache: yes
-  when: ansible_distribution == "Ubuntu"
-  tags:
-    - ansible-install-mpd
-    - packages
 - name: Install GCC/G++ | APT
   apt:
     name: "g++-{{ ansible_install_mpd_gcc_version }}"

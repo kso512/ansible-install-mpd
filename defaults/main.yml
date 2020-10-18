@@ -6,7 +6,7 @@ ansible_install_mpd_conf_src: mpd.conf.j2
 ansible_install_mpd_db_file: "{{ ansible_install_mpd_home }}/database"
 ansible_install_mpd_executable: /usr/local/bin/mpd
 ansible_install_mpd_filename: "{{ ansible_install_mpd_shortname }}.tar.xz"
-ansible_install_mpd_gcc_version: 6
+ansible_install_mpd_gcc_version: 8
 ansible_install_mpd_group: mpd
 ansible_install_mpd_home: /home/mpd
 ansible_install_mpd_log_file: "{{ ansible_install_mpd_home }}/log"
