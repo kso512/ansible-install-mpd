@@ -1,6 +1,6 @@
 # [ansible-install-mpd](https://galaxy.ansible.com/kso512/ansible-install-mpd/)
 
-[![Build Status](https://travis-ci.com/kso512/ansible-install-mpd.svg?branch=master)](https://travis-ci.com/kso512/ansible-install-mpd) ![Ansible Role](https://img.shields.io/ansible/role/d/16931) [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/) [![made-with-Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)](http://commonmark.org) ![GitHub](https://img.shields.io/github/license/kso512/ansible-install-mpd)
+![Ansible Role](https://img.shields.io/ansible/role/d/16931) [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/) [![made-with-Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)](http://commonmark.org) ![GitHub](https://img.shields.io/github/license/kso512/ansible-install-mpd)
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/kso512/ansible-install-mpd)](https://github.com/kso512/ansible-install-mpd) ![GitHub Release Date](https://img.shields.io/github/release-date/kso512/ansible-install-mpd) ![GitHub repo size](https://img.shields.io/github/repo-size/kso512/ansible-install-mpd) ![GitHub issues](https://img.shields.io/github/issues-raw/kso512/ansible-install-mpd) [![GitHub forks](https://img.shields.io/github/forks/Naereen/StrapDown.js.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/network/)
 
@@ -8,7 +8,7 @@ An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/pl
 
 **I do not recommend the default configuration for unprotected connection directly to the Internet, as the server configuration includes access without a password.**  Instead, I recommend the operator increase security by configuring a host or group variable that overrides `ansible_install_mpd_conf_src` with a custom file from outside the repository.
 
-Tested with [Travis continuous integration](https://travis-ci.com/) on the following distributions:
+Tested on the following distributions:
 
 - [Debian 10 "Buster"](https://www.debian.org/releases/buster/)
 
@@ -38,7 +38,7 @@ The default values shown below should work "out-of-the-box" and only need custom
 | ansible_install_mpd_pid_file | Fully-qualified file name of the MPD PID file | `{{ ansible_install_mpd_home }}/pid` |
 | ansible_install_mpd_playlist_directory | Folder to store playlists in | `{{ ansible_install_mpd_home }}/playlist` |
 | ansible_install_mpd_port | Address to bind the control interface to | `6600` |
-| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.22.6` |
+| ansible_install_mpd_shortname | Short name of the MPD archive | `mpd-0.22.7` |
 | ansible_install_mpd_src | Directory to unarchive the source code in | `{{ ansible_install_mpd_src_base }}/{{ ansible_install_mpd_shortname }}` |
 | ansible_install_mpd_src_base | Directory to place the source code archive in | `{{ ansible_install_mpd_home }}/src` |
 | ansible_install_mpd_state_file | Fully-qualified file name of the MPD state file | `{{ ansible_install_mpd_home }}/state` |
