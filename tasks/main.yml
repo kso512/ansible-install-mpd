@@ -130,7 +130,8 @@
   when: ansible_service_mgr == "systemd"
   register: systemd_service_template_output
   notify: 
-    - Validate systemd configuration files if new | COMMAND
+    - Validate systemd configuration files | COMMAND
+    - Reload systemd configuration files | SYSTEMD
     - Restart the Music Player Daemon service | SERVICE
   tags:
     - ansible-install-mpd

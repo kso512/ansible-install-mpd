@@ -1,11 +1,17 @@
 ---
 # handlers file for ansible-install-mpd
-- name: Validate systemd configuration files if new | COMMAND
+- name: Validate systemd configuration files | COMMAND
   command: "systemd-analyze verify {{ ansible_install_mpd_systemd_service_dest }}"
   when: systemd_service_template_output.changed
   tags:
     - ansible-install-mpd
     - files
+- name: Reload systemd configuration files | SYSTEMD
+  systemd:
+    daemon_reload: yes
+  tags:
+    - ansible-install-mpd
+    - services
 - name: Restart the Music Player Daemon service | SERVICE
   service:
     name: mpd
