@@ -6,6 +6,8 @@
 
 An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/playbooks_roles.html#roles) to install the [Music Player Daemon](http://www.musicpd.org/) application from source instead of via a package manager.  Some package managers may not include features such as MP3 support, so compiling from the source code may help.
 
+**This role has been deprecated and replaced with a new role: [kso512.mpd](https://galaxy.ansible.com/kso512/mpd/)**
+
 **I do not recommend the default configuration for unprotected connection directly to the Internet, as the server configuration includes access without a password.**  Instead, I recommend the operator increase security by configuring a host or group variable that overrides `ansible_install_mpd_conf_src` with a custom file from outside the repository.
 
 Tested on the following distributions:
